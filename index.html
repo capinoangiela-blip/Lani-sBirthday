@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Friendship Diary 💖</title>
+<title>Lani's Birthday💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
@@ -529,43 +529,56 @@ const music = document.getElementById("bgMusic");
 
 let loopTimer;
 
-// 🎧 CONFIG: CHORUS START & END TIMES (in seconds)
+// 🎵 TRACKS
 const tracks = [
-  { src: "song.mp3", start: 55, end: 85 },        // PAGE 1 (no chorus needed)
-  { src: "song1.mp3", start: 65, end: 95 },     // PAGE 2 (CHORUS ONLY)
-  { src: "song3.mp3", start: 70, end: 100 },    // PAGE 3 (CHORUS ONLY)
-  { src: "song4.mp3", start: 0, end: 0 }        // PAGE 4
+  { src: "song.mp3", start: 30, end: 55 },   // PAGE 1
+  { src: "song1.mp3", start: 65, end: 95 },  // PAGE 2 CHORUS
+  { src: "song3.mp3", start: 70, end: 100 }, // PAGE 3 CHORUS
+  { src: "song4.mp3", start: 0, end: 0 }
 ];
 
-// 🎵 PLAY CHORUS FUNCTION
-function playChorus(track){
+// 💖 FIRST LOAD AUTOPLAY (Page 1)
+window.addEventListener("load", () => {
+  playTrack(tracks[0], true);
+});
+
+function playTrack(track, isFirst = false){
+
   music.src = track.src;
 
+  clearInterval(loopTimer);
+
+  // PAGE 1 OR NORMAL PLAY
+  if(track.end === 0){
+    music.currentTime = 0;
+    music.play().catch(()=>{});
+    return;
+  }
+
+  // CHORUS ONLY MODE (Page 2 & 3)
   music.currentTime = track.start;
 
   music.play().catch(()=>{});
 
-  clearInterval(loopTimer);
-
   loopTimer = setInterval(() => {
-    if (music.currentTime >= track.end) {
-      music.currentTime = track.start; // loop chorus only
+    if(music.currentTime >= track.end){
+      music.currentTime = track.start;
       music.play();
     }
   }, 500);
 }
 
-// 📄 PAGE SWITCH
+// 💖 PAGE SWITCH
 function showPage(i){
   pages.forEach(p => p.classList.remove('active'));
   pages[i].classList.add('active');
 
   if(tracks[i]){
-    playChorus(tracks[i]);
+    playTrack(tracks[i]);
   }
 }
 
-// NEXT / PREV
+// NAVIGATION
 function nextPage(){
   if(index < pages.length - 1){
     index++;
@@ -580,17 +593,10 @@ function prevPage(){
   }
 }
 
-// 🔓 autoplay unlock (important for browsers)
+// 🔓 UNLOCK AUDIO ON FIRST CLICK (REQUIRED BY BROWSER)
 document.addEventListener("click", () => {
   music.play().catch(()=>{});
 }, { once:true });
-function nextPage(){
-  if(index<pages.length-1){
-    index++;
-    showPage(index);
-  }
-}
-
 function prevPage(){
   if(index>0){
     index--;
