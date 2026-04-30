@@ -531,10 +531,11 @@ let loopTimer;
 
 // 🎵 TRACKS
 const tracks = [
-  { src: "song.mp3", start: 30, end: 55 },   // PAGE 1
-  { src: "song1.mp3", start: 65, end: 95 },  // PAGE 2 CHORUS
-  { src: "song3.mp3", start: 70, end: 100 }, // PAGE 3 CHORUS
-  { src: "song4.mp3", start: 0, end: 0 }
+  { src: null, start: 0, end: 0 },           // PAGE 1 (NO SOUND)
+  { src: "song1.mp3", start: 65, end: 95 },  // PAGE 2
+  { src: "song3.mp3", start: 70, end: 100 }, // PAGE 3
+  { src: "song4.mp3", start: 0, end: 0 },    // PAGE 4
+  { src: "song.mp3", start: 55, end: 85 }    // PAGE 5 (PAGE 1 SOUND MOVED HERE)
 ];
 
 // 💖 FIRST LOAD AUTOPLAY (Page 1)
